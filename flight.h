@@ -13,14 +13,12 @@ class Flight
 private:
     string flight_id;       // primary key, unique
     string flight_number;
-    string airline_name;
     string origin;
     string destination;
     string departure_time;
     string arrival_time;
     string status;
-    string aircraft_type;
-    int seat_capacity;
+
 
 public:
     // Constructors
