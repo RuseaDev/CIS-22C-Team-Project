@@ -2,7 +2,6 @@
 
 Flight::Flight()
 {
-    flight_id = "";
     flight_number = "";
     origin = "";
     destination = "";
@@ -11,15 +10,13 @@ Flight::Flight()
     status = "";
 }
 
-Flight::Flight(const string& flight_id,
-               const string& flight_number,
+Flight::Flight(const string& flight_number,
                const string& origin,
                const string& destination,
                const string& departure_time,
                const string& arrival_time,
                const string& status)
 {
-    this->flight_id = flight_id;
     this->flight_number = flight_number;
     this->origin = origin;
     this->destination = destination;
@@ -28,9 +25,6 @@ Flight::Flight(const string& flight_id,
     this->status = status;
 }
 
-void Flight::setFlightID(const string& flight_id) {
-    this->flight_id = flight_id;
-}
 
 void Flight::setFlightNumber(const string& flight_number) {
     this->flight_number = flight_number;
@@ -56,9 +50,6 @@ void Flight::setStatus(const string& status) {
     this->status = status;
 }
 
-string Flight::getFlightID() const {
-    return flight_id;
-}
 
 string Flight::getFlightNumber() const {
     return flight_number;

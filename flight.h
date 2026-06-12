@@ -10,8 +10,7 @@ using std::string;
 
 class Flight
 {
-private:
-    string flight_id;       // primary key, unique
+private:      // primary key, unique
     string flight_number;
     string origin;
     string destination;
@@ -23,8 +22,7 @@ private:
 public:
     // Constructors
     Flight();
-    Flight(const string& flight_id,
-           const string& flight_number,
+    Flight(const string& flight_number,
            const string& origin,
            const string& destination,
            const string& departure_time,
@@ -32,7 +30,6 @@ public:
            const string& status);
 
     // Setters / Mutators
-    void setFlightID(const string& flight_id);
     void setFlightNumber(const string& flight_number);
     void setOrigin(const string& origin);
     void setDestination(const string& destination);
@@ -42,7 +39,6 @@ public:
    
 
     // Getters / Accessors
-    string getFlightID() const;
     string getFlightNumber() const;
     string getOrigin() const;
     string getDestination() const;
