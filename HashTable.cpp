@@ -153,7 +153,7 @@ int HashTable::insert(const Flight& flight)
     if (loadFactor() >= 0.75)
         _rehash();
 
-    const string& key    = flight.getFlightNumber();
+    const string& key    = flight.getFlightID();
     int           home   = _hash(key);
     int firstDeleted     = -1;
     int firstDeletedStep = -1;
@@ -164,7 +164,7 @@ int HashTable::insert(const Flight& flight)
 
         if (table[probe].state == OCCUPIED)
         {
-            if (table[probe].data.getFlightNumber() == key)
+            if (table[probe].data.getFlightID() == key)
                 return probe;              // duplicate — no insert
             continue;                      // collision — keep probing
         }
@@ -224,7 +224,7 @@ int HashTable::search(const string& key) const
             return -1;
 
         if (table[probe].state == OCCUPIED &&
-            table[probe].data.getFlightNumber() == key)
+            table[probe].data.getFlightID() == key)
             return probe;
 
         // DELETED → continue (do not break the chain)
@@ -311,7 +311,7 @@ vector<pair<string, int>> HashTable::getAllEntries() const
     entries.reserve(count);
     for (int i = 0; i < tableSize; ++i)
         if (table[i].state == OCCUPIED)
-            entries.emplace_back(table[i].data.getFlightNumber(), i);
+            entries.emplace_back(table[i].data.getFlightID(), i);
     return entries;
 }
 
@@ -334,7 +334,7 @@ int HashTable::getLongestPath() const
     {
         if (table[i].state == OCCUPIED)
         {
-            int home = _hash(table[i].data.getFlightNumber());
+            int home = _hash(table[i].data.getFlightID());
             int path = ((i - home) + tableSize) % tableSize;
             if (path > longest) longest = path;
         }
