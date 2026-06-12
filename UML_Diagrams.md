@@ -10,7 +10,6 @@
 ┌──────────────────────────────────────────────┐
 │                    Flight                    │
 ├──────────────────────────────────────────────┤
-│ - flight_id:       string                    │
 │ - flight_number:   string                    │
 │ - origin:          string                    │
 │ - destination:     string                    │
@@ -19,10 +18,9 @@
 │ - status:          string                    │
 ├──────────────────────────────────────────────┤
 │ + Flight()                                   │
-│ + Flight(flight_id, flight_number, origin,   │
-│           destination, departure_time,       │
-│           arrival_time, status: string)      │
-│ + setFlightID(flight_id: string): void       │
+│ + Flight(flight_number, origin, destination, │
+│           departure_time, arrival_time,      │
+│           status: string)                   │
 │ + setFlightNumber(flight_number: string): void│
 │ + setOrigin(origin: string): void            │
 │ + setDestination(destination: string): void  │
@@ -30,7 +28,6 @@
 │                                          void│
 │ + setArrivalTime(arrival_time: string): void │
 │ + setStatus(status: string): void            │
-│ + getFlightID(): string                      │
 │ + getFlightNumber(): string                  │
 │ + getOrigin(): string                        │
 │ + getDestination(): string                   │

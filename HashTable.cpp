@@ -82,19 +82,9 @@ HashTable::~HashTable()
 //                                            final index = 1
 //
 // ── Sequential key clustering (known limitation) ─────────────────
-// Our primary key is flight_id: "001", "002", ..., "025".
-// These strings differ only in their last character.  Because
-// BASE^0 = 1, the last character contributes exactly ascii(c) * 1.
-// Adjacent ASCII digits differ by 1, so consecutive keys shift the
-// hash by +1 before the final modulo:
-//
-//   h("001") = 18,  h("002") = 19,  h("003") = 20,  ...
-//
-// This packs keys 001-009 into slots 18-26 and 020-025 into slots
-// 26-31 (with 020 colliding against 009 at index 26).  The effect
-// is primary clustering — a well-known drawback of any hash that
-// maps sequential inputs to sequential outputs.  It is documented
-// in the project Data Structure Diagram and the project report.
+// Flight numbers such as "AA101" and "DL303" include both letters
+// and digits, so the polynomial hash uses each character's position
+// instead of reducing the key to a numeric ID.
 // ═══════════════════════════════════════════════════════════════
 
 int HashTable::_hash(const string& key) const
@@ -153,7 +143,7 @@ int HashTable::insert(const Flight& flight)
     if (loadFactor() >= 0.75)
         _rehash();
 
-    const string& key    = flight.getFlightID();
+    const string& key    = flight.getFlightNumber();
     int           home   = _hash(key);
     int firstDeleted     = -1;
     int firstDeletedStep = -1;
@@ -164,7 +154,7 @@ int HashTable::insert(const Flight& flight)
 
         if (table[probe].state == OCCUPIED)
         {
-            if (table[probe].data.getFlightID() == key)
+            if (table[probe].data.getFlightNumber() == key)
                 return probe;              // duplicate — no insert
             continue;                      // collision — keep probing
         }
@@ -224,7 +214,7 @@ int HashTable::search(const string& key) const
             return -1;
 
         if (table[probe].state == OCCUPIED &&
-            table[probe].data.getFlightID() == key)
+            table[probe].data.getFlightNumber() == key)
             return probe;
 
         // DELETED → continue (do not break the chain)
@@ -301,7 +291,7 @@ void HashTable::_rehash()
 // ═══════════════════════════════════════════════════════════════
 // getAllEntries
 //
-// Returns (flight_id, current_index) for every OCCUPIED slot.
+// Returns (flight_number, current_index) for every OCCUPIED slot.
 // Use this after a rehash to update BST node hashIndex fields.
 // ═══════════════════════════════════════════════════════════════
 
@@ -311,7 +301,7 @@ vector<pair<string, int>> HashTable::getAllEntries() const
     entries.reserve(count);
     for (int i = 0; i < tableSize; ++i)
         if (table[i].state == OCCUPIED)
-            entries.emplace_back(table[i].data.getFlightID(), i);
+            entries.emplace_back(table[i].data.getFlightNumber(), i);
     return entries;
 }
 
@@ -334,7 +324,7 @@ int HashTable::getLongestPath() const
     {
         if (table[i].state == OCCUPIED)
         {
-            int home = _hash(table[i].data.getFlightID());
+            int home = _hash(table[i].data.getFlightNumber());
             int path = ((i - home) + tableSize) % tableSize;
             if (path > longest) longest = path;
         }
@@ -368,7 +358,6 @@ void HashTable::printTable() const
                 break;
             case OCCUPIED:
                 cout << table[i].data.getFlightNumber()
-                     << "  " << table[i].data.getFlightID()
                      << "  " << table[i].data.getOrigin()
                      << " -> " << table[i].data.getDestination()
                      << "\n";

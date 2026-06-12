@@ -7,7 +7,6 @@
 using namespace std;
 
 void displayFlight(const Flight &flight) {
-  cout << "ID: " << flight.getFlightID() << endl;
   cout << "Flight Number: " << flight.getFlightNumber() << endl;
   cout << "Origin: " << flight.getOrigin() << endl;
   cout << "Destination: " << flight.getDestination() << endl;
@@ -83,7 +82,7 @@ void displayManager(HashTable &hashTable) {
 
 void searchManager(const HashTable &hashTable) {
   string key;
-  cout << "Enter the flight ID to search: ";
+  cout << "Enter the flight number to search: ";
 
   cin >> key;
   int index = hashTable.search(key);
@@ -103,7 +102,7 @@ void searchManager(const HashTable &hashTable) {
 void deleteManager(HashTable &hashTable) {
   string key;
   cout << "Delete Manager" << endl;
-  cout << "Enter the flight ID to delete: ";
+  cout << "Enter the flight number to delete: ";
   cin >> key;
 
   int index = hashTable.search(key);
