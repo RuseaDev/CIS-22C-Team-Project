@@ -2,8 +2,19 @@
 #include "HashTable.h"
 #include "flight.h"
 #include <iostream>
+#include <limits>
 
 using namespace std;
+
+void displayFlight(const Flight &flight) {
+  cout << "ID: " << flight.getFlightID() << endl;
+  cout << "Flight Number: " << flight.getFlightNumber() << endl;
+  cout << "Origin: " << flight.getOrigin() << endl;
+  cout << "Destination: " << flight.getDestination() << endl;
+  cout << "Departure: " << flight.getDepartureTime() << endl;
+  cout << "Arrival: " << flight.getArrivalTime() << endl;
+  cout << "Status: " << flight.getStatus() << endl;
+}
 
 // util function
 int choiceInput() {
@@ -21,7 +32,7 @@ int choiceInput() {
 
 // Managers
 
-void displayManager(const HashTable &hashTable) {
+void displayManager(HashTable &hashTable) {
   int choice;
   cout << "1. Display menu " << endl;
   cout << "2. Display all records " << endl;
@@ -46,7 +57,7 @@ void displayManager(const HashTable &hashTable) {
       updateManager();
       break;
     case 3:
-      deleteManager();
+      deleteManager(hashTable);
       break;
     case 4:
       undoDeleteManager();
@@ -55,7 +66,7 @@ void displayManager(const HashTable &hashTable) {
       searchManager(hashTable);
       break;
     default:
-      cout << "Existing..." << endl;
+      cout << "Exiting..." << endl;
       break;
     }
     break;
@@ -65,7 +76,7 @@ void displayManager(const HashTable &hashTable) {
 
     break;
   default:
-    cout << "Existing..." << endl;
+    cout << "Exiting..." << endl;
     break;
   }
 }
@@ -85,19 +96,43 @@ void searchManager(const HashTable &hashTable) {
   Flight flight;
   if (hashTable.getAtIndex(index, flight)) {
     cout << "Found flight:" << endl;
-    cout << "ID: " << flight.getFlightID() << endl;
-    cout << "Flight Number: " << flight.getFlightNumber() << endl;
-    cout << "Origin: " << flight.getOrigin() << endl;
-    cout << "Destination: " << flight.getDestination() << endl;
-    cout << "Departure: " << flight.getDepartureTime() << endl;
-    cout << "Arrival: " << flight.getArrivalTime() << endl;
-    cout << "Status: " << flight.getStatus() << endl;
+    displayFlight(flight);
   }
 }
 
-void deleteManager() {
-  cout << "Delete Manager\n";
-  cout << endl;
+void deleteManager(HashTable &hashTable) {
+  string key;
+  cout << "Delete Manager" << endl;
+  cout << "Enter the flight ID to delete: ";
+  cin >> key;
+
+  int index = hashTable.search(key);
+  if (index == -1) {
+    cout << "Flight not found." << endl;
+    return;
+  }
+
+  Flight flight;
+  if (!hashTable.getAtIndex(index, flight)) {
+    cout << "Unable to retrieve flight record." << endl;
+    return;
+  }
+
+  cout << "Flight to delete:" << endl;
+  displayFlight(flight);
+  cout << "Confirm delete? (y/n): ";
+
+  char confirm;
+  cin >> confirm;
+  if (confirm == 'y' || confirm == 'Y') {
+    if (hashTable.remove(key)) {
+      cout << "Flight deleted." << endl;
+    } else {
+      cout << "Delete failed." << endl;
+    }
+  } else {
+    cout << "Delete cancelled." << endl;
+  }
 }
 
 void updateManager() {

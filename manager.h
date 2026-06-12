@@ -4,8 +4,8 @@
 #include "HashTable.h"
 
 void searchManager(const HashTable &hashTable);
-void displayManager(const HashTable &hashTable);
-void deleteManager();
+void displayManager(HashTable &hashTable);
+void deleteManager(HashTable &hashTable);
 void insertManager();
 void updateManager();
 void undoDeleteManager();
