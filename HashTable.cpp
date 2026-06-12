@@ -257,6 +257,17 @@ bool HashTable::remove(const string& key)
     return true;
 }
 
+bool HashTable::update(const string& key, const Flight& updatedFlight)
+{
+    int idx = search(key);
+    if (idx == -1) return false;
+
+    Flight storedFlight = updatedFlight;
+    storedFlight.setFlightNumber(key);
+    table[idx].data = storedFlight;
+    return true;
+}
+
 // ═══════════════════════════════════════════════════════════════
 // _rehash
 //

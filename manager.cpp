@@ -1,10 +1,15 @@
 #include "manager.h"
 #include "HashTable.h"
+#include "Stack.h"
 #include "flight.h"
 #include <iostream>
 #include <limits>
 
 using namespace std;
+
+// util function
+
+static Stack deletedFlights;
 
 void displayFlight(const Flight &flight) {
   cout << "Flight Number: " << flight.getFlightNumber() << endl;
@@ -15,7 +20,6 @@ void displayFlight(const Flight &flight) {
   cout << "Status: " << flight.getStatus() << endl;
 }
 
-// util function
 int choiceInput() {
   int choice;
   cin >> choice;
@@ -27,6 +31,21 @@ int choiceInput() {
     cin >> choice;
   }
   return choice;
+}
+
+bool findFlight(const HashTable &hashTable, const string &key, Flight &flight) {
+  int index = hashTable.search(key);
+  if (index == -1) {
+    cout << "Flight not found." << endl;
+    return false;
+  }
+
+  if (!hashTable.getAtIndex(index, flight)) {
+    cout << "Unable to retrieve flight record." << endl;
+    return false;
+  }
+
+  return true;
 }
 
 // Managers
@@ -53,13 +72,13 @@ void displayManager(HashTable &hashTable) {
       insertManager();
       break;
     case 2:
-      updateManager();
+      updateManager(hashTable);
       break;
     case 3:
       deleteManager(hashTable);
       break;
     case 4:
-      undoDeleteManager();
+      undoDeleteManager(hashTable);
       break;
     case 5:
       searchManager(hashTable);
@@ -85,18 +104,13 @@ void searchManager(const HashTable &hashTable) {
   cout << "Enter the flight number to search: ";
 
   cin >> key;
-  int index = hashTable.search(key);
-
-  if (index == -1) {
-    cout << "Flight not found." << endl;
-    return;
-  }
 
   Flight flight;
-  if (hashTable.getAtIndex(index, flight)) {
-    cout << "Found flight:" << endl;
-    displayFlight(flight);
-  }
+  if (!findFlight(hashTable, key, flight))
+    return;
+
+  cout << "Found flight:" << endl;
+  displayFlight(flight);
 }
 
 void deleteManager(HashTable &hashTable) {
@@ -105,17 +119,9 @@ void deleteManager(HashTable &hashTable) {
   cout << "Enter the flight number to delete: ";
   cin >> key;
 
-  int index = hashTable.search(key);
-  if (index == -1) {
-    cout << "Flight not found." << endl;
-    return;
-  }
-
   Flight flight;
-  if (!hashTable.getAtIndex(index, flight)) {
-    cout << "Unable to retrieve flight record." << endl;
+  if (!findFlight(hashTable, key, flight))
     return;
-  }
 
   cout << "Flight to delete:" << endl;
   displayFlight(flight);
@@ -125,6 +131,7 @@ void deleteManager(HashTable &hashTable) {
   cin >> confirm;
   if (confirm == 'y' || confirm == 'Y') {
     if (hashTable.remove(key)) {
+      deletedFlights.push(flight);
       cout << "Flight deleted." << endl;
     } else {
       cout << "Delete failed." << endl;
@@ -134,14 +141,84 @@ void deleteManager(HashTable &hashTable) {
   }
 }
 
-void updateManager() {
-  cout << "update";
-  cout << endl;
+void updateManager(HashTable &hashTable) {
+  string key;
+  cout << "Update Manager" << endl;
+  cout << "Enter the flight number to update: ";
+  cin >> key;
+
+  Flight flight;
+  if (!findFlight(hashTable, key, flight))
+    return;
+
+  cout << "Current flight:" << endl;
+  displayFlight(flight);
+  cout << "Choose field to update:" << endl;
+  cout << "1. Origin" << endl;
+  cout << "2. Destination" << endl;
+  cout << "3. Departure time" << endl;
+  cout << "4. Arrival time" << endl;
+  cout << "5. Status" << endl;
+  cout << "Any other number to cancel." << endl;
+  cout << "Enter your choice: ";
+
+  int choice = choiceInput();
+  if (choice < 1 || choice > 5) {
+    cout << "Update cancelled." << endl;
+    return;
+  }
+
+  cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+  string value;
+  cout << "Enter new value: ";
+  getline(cin, value);
+
+  switch (choice) {
+  case 1:
+    flight.setOrigin(value);
+    break;
+  case 2:
+    flight.setDestination(value);
+    break;
+  case 3:
+    flight.setDepartureTime(value);
+    break;
+  case 4:
+    flight.setArrivalTime(value);
+    break;
+  case 5:
+    flight.setStatus(value);
+    break;
+  }
+
+  if (hashTable.update(key, flight)) {
+    cout << "Flight updated." << endl;
+  } else {
+    cout << "Update failed." << endl;
+  }
 }
 
-void undoDeleteManager() {
-  cout << "undo";
-  cout << endl;
+void undoDeleteManager(HashTable &hashTable) {
+  if (deletedFlights.isEmpty()) {
+    cout << "No deleted flights to restore." << endl;
+    return;
+  }
+
+  Flight flight = deletedFlights.peek();
+  string key = flight.getFlightNumber();
+
+  if (hashTable.search(key) != -1) {
+    cout << "Restore failed. Flight already exists." << endl;
+    return;
+  }
+
+  if (hashTable.insert(flight) != -1) {
+    deletedFlights.pop();
+    cout << "Flight restored." << endl;
+  } else {
+    cout << "Restore failed." << endl;
+  }
 }
 
 void insertManager() {

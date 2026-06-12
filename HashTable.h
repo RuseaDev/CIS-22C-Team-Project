@@ -81,6 +81,10 @@ public:
     // Also remove the corresponding key from the BST after calling this.
     bool remove(const std::string& key);
 
+    // Update an existing flight without changing its primary key.
+    // Returns false if the key is not found.
+    bool update(const std::string& key, const Flight& updatedFlight);
+
     // ── BST sync helper ──────────────────────────────────────────────
     // Returns every (flight_number, current_index) pair in the table.
     // Call this after a rehash to update all BST node hashIndex fields.
