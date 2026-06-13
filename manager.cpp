@@ -69,7 +69,7 @@ void displayManager(HashTable &hashTable) {
 
     switch (choiceInput()) {
     case 1:
-      insertManager();
+      insertManager(hashTable);
       break;
     case 2:
       updateManager(hashTable);
@@ -221,7 +221,48 @@ void undoDeleteManager(HashTable &hashTable) {
   }
 }
 
-void insertManager() {
-  cout << "insert";
-  cout << endl;
+void insertManager(HashTable &hashTable) {
+  cout << "Insert Manager" << endl;
+  cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+  string flightNumber;
+  string origin;
+  string destination;
+  string departureTime;
+  string arrivalTime;
+  string status;
+
+  cout << "Enter flight number: ";
+  getline(cin, flightNumber);
+
+  if (flightNumber.empty()) {
+    cout << "Insert cancelled. Flight number cannot be empty." << endl;
+    return;
+  }
+
+  if (hashTable.search(flightNumber) != -1) {
+    cout << "Insert cancelled. Flight already exists." << endl;
+    return;
+  }
+
+  cout << "Enter origin: ";
+  getline(cin, origin);
+  cout << "Enter destination: ";
+  getline(cin, destination);
+  cout << "Enter departure time: ";
+  getline(cin, departureTime);
+  cout << "Enter arrival time: ";
+  getline(cin, arrivalTime);
+  cout << "Enter status: ";
+  getline(cin, status);
+
+  Flight flight(flightNumber, origin, destination, departureTime, arrivalTime,
+                status);
+  int index = hashTable.insert(flight);
+
+  if (index != -1) {
+    cout << "Flight inserted at index " << index << "." << endl;
+  } else {
+    cout << "Insert failed." << endl;
+  }
 }
