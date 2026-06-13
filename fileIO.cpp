@@ -148,6 +148,7 @@ void saveToFile(string filename, HashTable& hashTable) {
     // walk hash table index by index
     int saved = 0;
     for (int i = 0; i < hashTable.getTableSize(); i++) {
+
         Flight f;
         if (hashTable.getAtIndex(i, f)) {  // returns false if empty/deleted
             Airplane ap = f.getAirplane();
