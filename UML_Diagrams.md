@@ -202,8 +202,8 @@
                                   │   HashTable    │◆──────────────────┐
                                   │                │  (owns Slot array) │
                                   └───────┬────────┘               ┌───▼───┐
-                                          │                         │ Slot  │
-                                          │ (hashIndex links)       └───────┘
+                                          │                        │ Slot  │
+                                          │ (hashIndex links)      └───────┘
                                           │
                                   ┌───────▼────────┐
                                   │      BST       │◆──────────────────────────┐
@@ -251,8 +251,9 @@
 |----------|---------------------------------------------------------------|
 | `◆────`  | **Composition** — owner manages lifetime (filled diamond)     |
 | `o────`  | **Aggregation** — uses but does not own (open diamond)        |
-| `──▶`   | **Association / dependency**                                  |
-| `──▷`   | **Inheritance** (none yet in this project)                    |
+| `──▶`    | **Association / dependency**                                  |
+| `──▷`    | **Inheritance** (none yet in this project)                    |
+|----------|---------------------------------------------------------------|
 
 ---
 
