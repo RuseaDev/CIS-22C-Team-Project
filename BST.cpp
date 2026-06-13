@@ -34,6 +34,26 @@ BSTNode* BST::_insert(BSTNode* node, const string& key, int hashIndex) {
     return node;
 }
 
+int BST::search(const string& key) const {
+    return _search(root, key);
+}
+
+int BST::_search(BSTNode* node, const string& key) const {
+    if (node == nullptr) {
+        return -1;
+    }
+
+    if (node->key == key) {
+        return node->hashIndex;
+    }
+
+    if (node->key > key) {
+        return _search(node->left, key);
+    }
+
+    return _search(node->right, key);
+}
+
 void BST::remove(const string& key) {
     root = _remove(root, key);
 }
