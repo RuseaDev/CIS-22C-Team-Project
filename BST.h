@@ -27,6 +27,7 @@ private:
     BSTNode* root;
     BSTNode* _insert(BSTNode* node, const std::string& key, int hashIndex);
     BSTNode* _remove(BSTNode* node, const std::string& key);
+    int _search(BSTNode* node, const std::string& key) const;
     BSTNode* _findMin(BSTNode* node);
     void _inorder(BSTNode* node) const;
     void _printIndented(BSTNode* node, int level) const;
@@ -37,6 +38,7 @@ public:
     ~BST();
 
     void insert(const string& key, int hashIndex);
+    int search(const string& key) const;
     void remove(const string& key);
     void clear();
     void inorder() const;

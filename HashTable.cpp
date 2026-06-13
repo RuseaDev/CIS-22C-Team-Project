@@ -250,8 +250,13 @@ bool HashTable::getAtIndex(int idx, Flight& out) const
 bool HashTable::remove(const string& key)
 {
     int idx = search(key);
-    if (idx == -1) return false;
+    return removeAtIndex(idx);
+}
 
+bool HashTable::removeAtIndex(int idx)
+{
+    if (idx < 0 || idx >= tableSize) return false;
+    if (table[idx].state != OCCUPIED) return false;
     table[idx].state = DELETED;
     --count;
     return true;
@@ -260,10 +265,15 @@ bool HashTable::remove(const string& key)
 bool HashTable::update(const string& key, const Flight& updatedFlight)
 {
     int idx = search(key);
-    if (idx == -1) return false;
+    return updateAtIndex(idx, updatedFlight);
+}
 
+bool HashTable::updateAtIndex(int idx, const Flight& updatedFlight)
+{
+    if (idx < 0 || idx >= tableSize) return false;
+    if (table[idx].state != OCCUPIED) return false;
     Flight storedFlight = updatedFlight;
-    storedFlight.setFlightNumber(key);
+    storedFlight.setFlightNumber(table[idx].data.getFlightNumber());
     table[idx].data = storedFlight;
     return true;
 }

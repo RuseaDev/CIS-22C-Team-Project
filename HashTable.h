@@ -80,10 +80,12 @@ public:
     // Lazy deletion: marks the slot DELETED and decrements count.
     // Also remove the corresponding key from the BST after calling this.
     bool remove(const std::string& key);
+    bool removeAtIndex(int idx);
 
     // Update an existing flight without changing its primary key.
     // Returns false if the key is not found.
     bool update(const std::string& key, const Flight& updatedFlight);
+    bool updateAtIndex(int idx, const Flight& updatedFlight);
 
     // ── BST sync helper ──────────────────────────────────────────────
     // Returns every (flight_number, current_index) pair in the table.
