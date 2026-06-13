@@ -1,4 +1,5 @@
 #include "fileIO.h"
+#include "airplane.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -47,6 +48,40 @@ bool isPrime(int n) {
 }
 
 /*
+Helper: trim leading/trailing whitespace from a token
+*/
+static string trimToken(const string& s) {
+    size_t start = s.find_first_not_of(" \t\r");
+    if (start == string::npos) return "";
+    size_t end = s.find_last_not_of(" \t\r");
+    return s.substr(start, end - start + 1);
+}
+
+/*
+Helper Function: parseLine
+Parses one CSV line into a Flight object.
+Expected columns (no flight_id):
+  flight_number, airline_name, origin, destination,
+  departure_time, arrival_time, status, aircraft_type, seat_capacity
+*/
+Flight parseLine(const string& line) {
+    stringstream ss(line);
+    string token;
+    string f[9];
+    int i = 0;
+    while (getline(ss, token, ',') && i < 9)
+        f[i++] = trimToken(token);
+
+    int seatCap = 0;
+    try { seatCap = stoi(f[8]); } catch (...) {}
+
+    // Airplane constructor takes non-const refs
+    string emptyId = "";
+    Airplane ap(emptyId, f[7], seatCap, f[1], 0);
+    return Flight(f[0], f[2], f[3], f[4], f[5], f[6], ap);
+}
+
+/*
 Function: readFile
 */
 void readFile(string filename, HashTable& hashTable, BST& bst){
@@ -68,9 +103,9 @@ void readFile(string filename, HashTable& hashTable, BST& bst){
         //insert() returns slot index, or -1 on failure
         int idx = hashTable.insert(f);
 
-        if (idx == 1){
+        if (idx == -1){
             cout << "Duplicate skipped: "
-                << f.getFlightID() << endl;
+                << f.getFlightNumber() << endl;
             continue;
         }
         // check if rehash happened
@@ -85,7 +120,7 @@ void readFile(string filename, HashTable& hashTable, BST& bst){
             cout << "Rehash occurred — BST rebuilt" << endl;
         } else {
             // normal insert into BST
-            bst.insert(f.getFlightID(), idx);
+            bst.insert(f.getFlightNumber(), idx);
         }
 
         count++;
@@ -106,26 +141,25 @@ void saveToFile(string filename, HashTable& hashTable) {
     }
 
     // write header
-    file << "flight_id, flight_number, airline_name, origin, "
+    file << "flight_number, airline_name, origin, "
          << "destination, departure_time, arrival_time, "
          << "status, aircraft_type, seat_capacity" << endl;
 
     // walk hash table index by index
     int saved = 0;
     for (int i = 0; i < hashTable.getTableSize(); i++) {
-        Airplane ap;
         Flight f;
         if (hashTable.getAtIndex(i, f)) {  // returns false if empty/deleted
-            file << f.getFlightID()      << ", "
-                 << f.getFlightNumber()  << ", "
-                 << ap.getAirlineName()   << ", "
+            Airplane ap = f.getAirplane();
+            file << f.getFlightNumber()  << ", "
+                 << ap.getAirlineName()  << ", "
                  << f.getOrigin()        << ", "
                  << f.getDestination()   << ", "
                  << f.getDepartureTime() << ", "
                  << f.getArrivalTime()   << ", "
                  << f.getStatus()        << ", "
-                 << ap.getAircraftType()  << ", "
-                 << ap.getSeatCapacity()  << endl;
+                 << ap.getAircraftType() << ", "
+                 << ap.getSeatCapacity() << endl;
             saved++;
         }
     }

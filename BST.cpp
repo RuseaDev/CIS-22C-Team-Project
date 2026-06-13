@@ -120,6 +120,11 @@ void BST::_printIndented(BSTNode* node, int level) const {
     _printIndented(node->left, level + 1);
 }
 
+void BST::clear() {
+    _destroyTree(root);
+    root = nullptr;
+}
+
 bool BST::isEmpty() const {
     return root == nullptr;
 }

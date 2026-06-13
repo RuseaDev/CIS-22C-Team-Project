@@ -6,17 +6,19 @@ Specification file for flight databaes
 #define FLIGHT_H
 
 #include <string>
+#include "airplane.h"
 using std::string;
 
 class Flight
 {
-private:      // primary key, unique
+private:
     string flight_number;
     string origin;
     string destination;
     string departure_time;
     string arrival_time;
     string status;
+    Airplane airplane;
 
 
 public:
@@ -27,7 +29,9 @@ public:
            const string& destination,
            const string& departure_time,
            const string& arrival_time,
-           const string& status);
+           const string& status,
+           const Airplane& airplane);  
+;
 
     // Setters / Mutators
     void setFlightNumber(const string& flight_number);
@@ -36,7 +40,6 @@ public:
     void setDepartureTime(const string& departure_time);
     void setArrivalTime(const string& arrival_time);
     void setStatus(const string& status);
-   
 
     // Getters / Accessors
     string getFlightNumber() const;
@@ -45,6 +48,8 @@ public:
     string getDepartureTime() const;
     string getArrivalTime() const;
     string getStatus() const;
+    Airplane getAirplane() const;
+
 
 
 };

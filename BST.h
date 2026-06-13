@@ -38,6 +38,7 @@ public:
 
     void insert(const string& key, int hashIndex);
     void remove(const string& key);
+    void clear();
     void inorder() const;
     void printIndented() const;
     bool isEmpty() const;

@@ -15,14 +15,17 @@ Flight::Flight(const string& flight_number,
                const string& destination,
                const string& departure_time,
                const string& arrival_time,
-               const string& status)
+               const string& status,
+               const Airplane& airplane)
 {
     this->flight_number = flight_number;
     this->origin = origin;
     this->destination = destination;
     this->departure_time = departure_time;
     this->arrival_time = arrival_time;
-    this->status = status;
+    this->status = status,    
+    this->airplane       = airplane; 
+;
 }
 
 
@@ -73,4 +76,8 @@ string Flight::getArrivalTime() const {
 
 string Flight::getStatus() const {
     return status;
+}
+
+Airplane Flight::getAirplane() const {
+    return airplane;
 }
