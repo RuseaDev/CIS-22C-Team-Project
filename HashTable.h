@@ -81,6 +81,7 @@ public:
     // Also remove the corresponding key from the BST after calling this.
     bool remove(const std::string& key);
     bool removeAtIndex(int idx);
+    bool restoreAtIndex(int idx, const Flight& flight);
 
     // Update an existing flight without changing its primary key.
     // Returns false if the key is not found.

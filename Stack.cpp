@@ -1,7 +1,19 @@
 #include "Stack.h"
 
-Stack::StackNode::StackNode(const Flight &flight) {
-  data = flight;
+DeletedFlight::DeletedFlight() {
+  hashIndex = -1;
+  tableSize = 0;
+}
+
+DeletedFlight::DeletedFlight(const Flight &flight, int hashIndex,
+                             int tableSize) {
+  this->flight = flight;
+  this->hashIndex = hashIndex;
+  this->tableSize = tableSize;
+}
+
+Stack::StackNode::StackNode(const DeletedFlight &deletedFlight) {
+  data = deletedFlight;
   next = nullptr;
 }
 
@@ -16,31 +28,31 @@ Stack::~Stack() {
   }
 }
 
-void Stack::push(const Flight &flight) {
-  StackNode *newNode = new StackNode(flight);
+void Stack::push(const DeletedFlight &deletedFlight) {
+  StackNode *newNode = new StackNode(deletedFlight);
   newNode->next = top;
   top = newNode;
   ++count;
 }
 
-Flight Stack::pop() {
+DeletedFlight Stack::pop() {
   if (isEmpty()) {
-    return Flight();
+    return DeletedFlight();
   }
 
   StackNode *nodeToDelete = top;
-  Flight flight = nodeToDelete->data;
+  DeletedFlight deletedFlight = nodeToDelete->data;
   top = top->next;
 
   delete nodeToDelete;
   --count;
 
-  return flight;
+  return deletedFlight;
 }
 
-Flight Stack::peek() const {
+DeletedFlight Stack::peek() const {
   if (isEmpty()) {
-    return Flight();
+    return DeletedFlight();
   }
 
   return top->data;

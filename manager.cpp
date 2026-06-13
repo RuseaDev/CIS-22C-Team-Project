@@ -156,7 +156,8 @@ void deleteManager(HashTable &hashTable, BST &bst) {
   if (confirm == 'y' || confirm == 'Y') {
     if (hashTable.removeAtIndex(index)) {
       bst.remove(key);
-      deletedFlights.push(flight);
+      deletedFlights.push(
+          DeletedFlight(flight, index, hashTable.getTableSize()));
       cout << "Flight deleted." << endl;
     } else {
       cout << "Delete failed." << endl;
@@ -231,7 +232,8 @@ void undoDeleteManager(HashTable &hashTable, BST &bst) {
     return;
   }
 
-  Flight flight = deletedFlights.peek();
+  DeletedFlight deletedFlight = deletedFlights.peek();
+  Flight flight = deletedFlight.flight;
   string key = flight.getFlightNumber();
 
   if (bst.search(key) != -1) {
@@ -239,14 +241,14 @@ void undoDeleteManager(HashTable &hashTable, BST &bst) {
     return;
   }
 
-  int prevSize = hashTable.getTableSize();
-  int index = hashTable.insert(flight);
-  if (index != -1) {
-    if (hashTable.getTableSize() != prevSize) {
-      rebuildBST(hashTable, bst);
-    } else {
-      bst.insert(key, index);
-    }
+  if (hashTable.getTableSize() != deletedFlight.tableSize) {
+    cout << "Restore failed. Hash table size changed." << endl;
+    return;
+  }
+
+  int index = deletedFlight.hashIndex;
+  if (hashTable.restoreAtIndex(index, flight)) {
+    bst.insert(key, index);
     deletedFlights.pop();
     cout << "Flight restored." << endl;
   } else {
