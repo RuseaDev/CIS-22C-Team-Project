@@ -24,17 +24,17 @@ void testFileIO(TestRunner &t) {
   // FI-02: Try to load a file that does not exist.
   int missingSize = 0;
   string missingOutput = captureOutput(
-      [&]() { missingSize = determineHashSize(TMP_DIR + "/missing.csv"); });
+      [&]() { missingSize = determineHashSize(TMP_DIR + "/missing.txt"); });
 
   printResult(t, "FI-02 missing file size result", missingSize == -1);
   printResult(t, "FI-02 missing file prints error",
               contains(missingOutput, "Error: File not found"));
 
-  // FI-03: Load a file with only the CSV header.
-  HashTable emptyTable(determineHashSize(TMP_DIR + "/empty.csv"));
+  // FI-03: Load a file with only the header line.
+  HashTable emptyTable(determineHashSize(TMP_DIR + "/empty.txt"));
   BST emptyBST;
   string emptyOutput = captureOutput(
-      [&]() { readFile(TMP_DIR + "/empty.csv", emptyTable, emptyBST); });
+      [&]() { readFile(TMP_DIR + "/empty.txt", emptyTable, emptyBST); });
 
   printResult(t, "FI-03 empty file active count",
               emptyTable.getCount() == 0);
@@ -42,10 +42,10 @@ void testFileIO(TestRunner &t) {
               contains(emptyOutput, "0 records loaded successfully"));
 
   // FI-04: Load a file that repeats AA101 once.
-  HashTable duplicateTable(determineHashSize(TMP_DIR + "/duplicate_aa101.csv"));
+  HashTable duplicateTable(determineHashSize(TMP_DIR + "/duplicate_aa101.txt"));
   BST duplicateBST;
   string duplicateOutput = captureOutput([&]() {
-    readFile(TMP_DIR + "/duplicate_aa101.csv", duplicateTable, duplicateBST);
+    readFile(TMP_DIR + "/duplicate_aa101.txt", duplicateTable, duplicateBST);
   });
 
   printResult(t, "FI-04 duplicate file keeps 25 active records",
@@ -55,12 +55,12 @@ void testFileIO(TestRunner &t) {
   printResult(t, "FI-04 duplicate load should not claim 26 records",
               !contains(duplicateOutput, "26 records loaded successfully"));
 
-  // FI-05: Save the loaded table and check the CSV header.
-  string savedFile = TMP_DIR + "/saved.csv";
+  // FI-05: Save the loaded table and check the file header.
+  string savedFile = TMP_DIR + "/saved.txt";
   captureOutput([&]() { saveToFile(savedFile, sampleTable); });
 
-  printResult(t, "FI-05 saved CSV header matches input format",
-              readFirstLine(savedFile) == CSV_HEADER);
+  printResult(t, "FI-05 saved file header matches input format",
+              readFirstLine(savedFile) == FILE_HEADER);
 
   // FI-06: Delete AA101, save, and make sure AA101 is not in the file.
   HashTable deleteTable(determineHashSize(SAMPLE_FILE));
@@ -68,12 +68,12 @@ void testFileIO(TestRunner &t) {
   loadSample(deleteTable, deleteBST);
   removeByKey(deleteTable, deleteBST, "AA101");
 
-  string deletedSaveFile = TMP_DIR + "/saved_after_delete.csv";
+  string deletedSaveFile = TMP_DIR + "/saved_after_delete.txt";
   captureOutput([&]() { saveToFile(deletedSaveFile, deleteTable); });
   string deletedSaveContents = readWholeFile(deletedSaveFile);
 
   printResult(t, "FI-06 save after delete excludes AA101",
               !contains(deletedSaveContents, "AA101,"));
-  printResult(t, "FI-06 save after delete keeps CSV header",
-              readFirstLine(deletedSaveFile) == CSV_HEADER);
+  printResult(t, "FI-06 save after delete keeps file header",
+              readFirstLine(deletedSaveFile) == FILE_HEADER);
 }

@@ -141,7 +141,7 @@ void testCrudAndUndo(TestRunner &t) {
   withInput(deleteConfirmInput("AA101"),
             [&]() { deleteManager(saveUndoTable, saveUndoBST); });
 
-  string savedFile = TMP_DIR + "/delete_save_undo.csv";
+  string savedFile = TMP_DIR + "/delete_save_undo.txt";
   captureOutput([&]() { saveToFile(savedFile, saveUndoTable); });
   string undoAfterSaveOutput =
       captureOutput([&]() { undoDeleteManager(saveUndoTable, saveUndoBST); });

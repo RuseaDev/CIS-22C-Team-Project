@@ -16,7 +16,7 @@ using namespace std;
 
 const string SAMPLE_FILE = "sample_input.txt";
 const string TMP_DIR = "tests/tmp";
-const string CSV_HEADER =
+const string FILE_HEADER =
     "flight_number, airline_name, origin, destination, departure_time, "
     "arrival_time, status, aircraft_type, seat_capacity";
 
@@ -97,7 +97,7 @@ void createTempDirectory() {
 void setupTempFiles() {
   createTempDirectory();
 
-  writeFile(TMP_DIR + "/empty.csv", CSV_HEADER + "\n");
+  writeFile(TMP_DIR + "/empty.txt", FILE_HEADER + "\n");
 
   ifstream sample(SAMPLE_FILE);
   string header;
@@ -106,7 +106,7 @@ void setupTempFiles() {
   getline(sample, firstRecord);
 
   string sampleContents = readWholeFile(SAMPLE_FILE);
-  writeFile(TMP_DIR + "/duplicate_aa101.csv",
+  writeFile(TMP_DIR + "/duplicate_aa101.txt",
             sampleContents + firstRecord + "\n");
 }
 

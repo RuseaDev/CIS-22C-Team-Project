@@ -18,8 +18,8 @@ Test data: `sample_input.txt` with 25 flight records
   - Purpose: Confirms missing-file error handling.
 
 - `FI-03` Empty input file
-  - Menu action: Start the program with a CSV file that only has the header row.
-  - Test data: Header-only CSV file.
+  - Menu action: Start the program with a text file that only has the header row.
+  - Test data: Header-only `.txt` file using the same field layout as the input file.
   - Expected result: Program reports zero records loaded or gives a clear empty-file message; no crash occurs.
   - Purpose: Confirms the program handles an input file with no flight records.
 
@@ -32,13 +32,13 @@ Test data: `sample_input.txt` with 25 flight records
 - `FI-05` Save to file format
   - Menu action: Load `sample_input.txt`, then save the records to an output file.
   - Test data: Original 25-record input file.
-  - Expected result: Saved file uses the same CSV format and field order as the input file: `flight_number, airline_name, origin, destination, departure_time, arrival_time, status, aircraft_type, seat_capacity`.
-  - Purpose: Covers teacher feedback that Save to File must preserve the input-file format.
+  - Expected result: Saved `.txt` file uses the same header and field order as the input file: `flight_number, airline_name, origin, destination, departure_time, arrival_time, status, aircraft_type, seat_capacity`.
+  - Purpose: Covers teacher feedback that Save to File must preserve the input `.txt` file format.
 
 - `FI-06` Save after delete
   - Menu action: Delete `AA101`, confirm delete, then save to file.
   - Test data: Original file after deleting one record.
-  - Expected result: Saved file does not contain `AA101`; all remaining records still use the same CSV format as the input file.
+  - Expected result: Saved `.txt` file does not contain `AA101`; all remaining records still use the same field order as the input file.
   - Purpose: Confirms deleted records are not written to the saved output file.
 
 ## Hash Table Test Cases
@@ -228,4 +228,4 @@ Test data: `sample_input.txt` with 25 flight records
 - Test cases use `sample_input.txt` unless the case explicitly says to use a modified input file.
 - Expected hash values use polynomial rolling hash with base `31` and table size `53`.
 - `SW404` is used to avoid redundant delete cases because it covers both a two-child BST delete and hash-table lazy deletion.
-- Save-to-file tests explicitly verify that the output file keeps the same CSV format as the input file.
+- Save-to-file tests explicitly verify that the output `.txt` file keeps the same field order as the input `.txt` file.

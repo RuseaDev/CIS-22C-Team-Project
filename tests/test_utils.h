@@ -10,7 +10,7 @@
 
 extern const std::string SAMPLE_FILE;
 extern const std::string TMP_DIR;
-extern const std::string CSV_HEADER;
+extern const std::string FILE_HEADER;
 
 struct TestRunner {
   int passed = 0;
