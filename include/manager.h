@@ -1,3 +1,8 @@
+/**
+ * @file manager.h
+ * @brief Declares menu manager functions for flight database actions.
+ */
+
 #ifndef MANAGER_H
 #define MANAGER_H
 

@@ -1,23 +1,7 @@
-/**~*~*~*
- * HashTable.h
- *
- * Unit 3 — Hash List Algorithms
- *
- * Data structure : hashed array of Flight objects.
- * Hash function  : Polynomial Rolling Hash (base 31).
- * Collision res. : Linear Probe with lazy deletion.
- * Rehash trigger : load factor >= 75 %; new size = nextPrime(size * 2).
- *
- * BST integration (Option 2 — key + hash index):
- *   insert() returns the final slot index so the caller can do:
- *       int idx = hashTable.insert(flight);
- *       bst.insert(flight.getFlightNumber(), idx);
- *
- *   WARNING: _rehash() reallocates the array and gives every record a
- *   new index.  After a rehash, ALL BST-stored hash indices are stale.
- *   Call getAllEntries() to get the new (key → index) mapping and
- *   rebuild the BST before the next search.
- *~*/
+/**
+ * @file HashTable.h
+ * @brief Declares a hash table for storing and finding flight records.
+ */
 
 #ifndef HASHTABLE_H
 #define HASHTABLE_H

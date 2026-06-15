@@ -1,3 +1,8 @@
+/**
+ * @file flight.cpp
+ * @brief Implements the Flight class for storing one flight record.
+ */
+
 #include "../include/flight.h"
 
 Flight::Flight() {

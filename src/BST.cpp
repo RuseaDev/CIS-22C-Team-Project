@@ -1,3 +1,8 @@
+/**
+ * @file BST.cpp
+ * @brief Implements the binary search tree used to index flight numbers.
+ */
+
 #include "../include/BST.h"
 #include <iostream>
 #include <string>

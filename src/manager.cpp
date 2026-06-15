@@ -1,3 +1,8 @@
+/**
+ * @file manager.cpp
+ * @brief Implements interactive menu actions for the flight database.
+ */
+
 #include "../include/manager.h"
 #include "../include/BST.h"
 #include "../include/HashTable.h"

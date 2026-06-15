@@ -1,3 +1,8 @@
+/**
+ * @file BST.h
+ * @brief Declares a binary search tree for mapping flight numbers to hash table indexes.
+ */
+
 #ifndef BST_H
 #define BST_H
 
@@ -6,8 +11,8 @@ using namespace std;
 
 struct BSTNode
 {
-    string key;     
-    int hashIndex;  
+    string key;
+    int hashIndex;
 
     BSTNode* left;
     BSTNode* right;

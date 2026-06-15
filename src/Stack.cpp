@@ -1,3 +1,8 @@
+/**
+ * @file Stack.cpp
+ * @brief Implements the stack used to restore recently deleted flights.
+ */
+
 #include "../include/Stack.h"
 
 DeletedFlight::DeletedFlight() {

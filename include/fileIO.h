@@ -1,3 +1,8 @@
+/**
+ * @file fileIO.h
+ * @brief Declares helper functions for reading and writing flight data files.
+ */
+
 #ifndef FILEIO_H
 #define FILEIO_H
 

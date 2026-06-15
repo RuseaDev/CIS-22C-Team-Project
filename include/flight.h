@@ -1,6 +1,7 @@
-/**~*~*~*
-Specification file for flight databaes
-*~*/
+/**
+ * @file flight.h
+ * @brief Declares the Flight class for storing one flight record.
+ */
 
 #ifndef FLIGHT_H
 #define FLIGHT_H

@@ -1,3 +1,8 @@
+/**
+ * @file Stack.h
+ * @brief Declares a stack for storing deleted flights that can be restored.
+ */
+
 #ifndef STACK_H
 #define STACK_H
 

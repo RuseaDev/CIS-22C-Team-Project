@@ -1,9 +1,7 @@
-/**~*~*~*
- * HashTable.cpp
- *
- * Unit 3 — Hash List Algorithms
- * Implementation of HashTable declared in HashTable.h
- *~*/
+/**
+ * @file HashTable.cpp
+ * @brief Implements the hash table used to store and find flight records.
+ */
 
 #include "../include/HashTable.h"
 #include <iomanip>

@@ -1,3 +1,8 @@
+/**
+ * @file main.cpp
+ * @brief Runs the flight database program and loads the input file.
+ */
+
 #include "../include/BST.h"
 #include "../include/HashTable.h"
 #include "../include/fileIO.h"

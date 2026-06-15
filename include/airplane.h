@@ -1,3 +1,8 @@
+/**
+ * @file airplane.h
+ * @brief Declares the Airplane class for storing aircraft and airline details.
+ */
+
 #ifndef AIRPLANE_H
 #define AIRPLANE_H
 

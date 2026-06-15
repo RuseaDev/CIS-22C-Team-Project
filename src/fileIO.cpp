@@ -1,3 +1,8 @@
+/**
+ * @file fileIO.cpp
+ * @brief Implements file reading, CSV parsing, and file saving for flight records.
+ */
+
 #include "../include/fileIO.h"
 #include "../include/airplane.h"
 #include <fstream>

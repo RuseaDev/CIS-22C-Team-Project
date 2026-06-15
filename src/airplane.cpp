@@ -1,3 +1,8 @@
+/**
+ * @file airplane.cpp
+ * @brief Implements the Airplane class for aircraft and airline details.
+ */
+
 #include "../include/airplane.h"
 
 Airplane::Airplane() {
