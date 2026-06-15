@@ -87,8 +87,7 @@ Flight parseLine(const string &line) {
   }
 
   // Airplane constructor takes non-const refs
-  string emptyId = "";
-  Airplane ap(emptyId, f[7], seatCap, f[1], 0);
+  Airplane ap(f[7], seatCap, f[1], 0);
   return Flight(f[0], f[2], f[3], f[4], f[5], f[6], ap);
 }
 

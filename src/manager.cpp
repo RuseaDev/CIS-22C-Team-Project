@@ -8,7 +8,9 @@
 #include "../include/HashTable.h"
 #include "../include/Stack.h"
 #include "../include/airplane.h"
+#include "../include/fileIO.h"
 #include "../include/flight.h"
+#include <cctype>
 #include <iostream>
 #include <limits>
 #include <utility>
@@ -26,6 +28,27 @@ static void rebuildBST(const HashTable &hashTable, BST &bst) {
   for (const auto &entry : entries) {
     bst.insert(entry.first, entry.second);
   }
+}
+
+static void printMainMenu() {
+  cout << "The following options are available:" << endl;
+  cout << "  [A] - Add data" << endl;
+  cout << "  [D] - Delete data" << endl;
+  cout << "  [U] - Undo delete" << endl;
+  cout << "  [P] - Primary key search (flight number)" << endl;
+  cout << "  [S] - Secondary key search (airline name)" << endl;
+  cout << "  [L] - List flights sorted by name" << endl;
+  cout << "  [T] - Statistics" << endl;
+  cout << "  [W] - Write to file" << endl;
+  cout << "  [H] - Help" << endl;
+  cout << "  [Q] - Quit" << endl;
+}
+
+static char menuChoiceInput() {
+  char choice;
+  cout << "Enter your choice: ";
+  cin >> choice;
+  return static_cast<char>(toupper(static_cast<unsigned char>(choice)));
 }
 
 void displayFlight(const Flight &flight) {
@@ -70,57 +93,52 @@ bool findFlight(const HashTable &hashTable, const BST &bst, const string &key,
 
 void displayManager(HashTable &hashTable, BST &bst) {
   bool running = true;
+  printMainMenu();
+
   while (running) {
-    cout << "1. Display menu " << endl;
-    cout << "2. Display all records " << endl;
-    cout << "Any other number to quit." << endl;
-    cout << "Enter your choice: ";
-
-    switch (choiceInput()) {
-    case 1:
-      cout << "Display menu" << endl;
-      cout << "watchu wanna do?" << endl;
-      cout
-          << "1. Insert\n 2. Update\n 3. Delete\n 4. Undo Delete\n 5. Search\n "
-             " Any other number to return"
-          << endl;
-
-      switch (choiceInput()) {
-      case 1:
-        insertManager(hashTable, bst);
-        break;
-      case 2:
-        updateManager(hashTable, bst);
-        break;
-      case 3:
-        deleteManager(hashTable, bst);
-        break;
-      case 4:
-        undoDeleteManager(hashTable, bst);
-        break;
-      case 5:
-        searchManager(hashTable, bst);
-        break;
-      case 6:
-        hashTable.printTable();
-        break;
-      default:
-        cout << "Returning to main menu..." << endl;
-        break;
-      }
+    switch (menuChoiceInput()) {
+    case 'A':
+      insertManager(hashTable, bst);
       break;
-    case 2:
-      cout << "Display all records" << endl;
+    case 'D':
+      deleteManager(hashTable, bst);
+      break;
+    case 'U':
+      undoDeleteManager(hashTable, bst);
+      break;
+    case 'P':
+      searchManager(hashTable, bst);
+      break;
+    case 'S':
+      secondarySearchManager(hashTable);
+      break;
+    case 'L':
+      cout << "List flights sorted by name" << endl;
       cout << "================================================================"
            << endl;
       hashTable.printTable();
       cout << "================================================================"
            << endl;
-
       break;
-    default:
+    case 'T':
+      hashTable.printStats();
+      break;
+    case 'W': {
+      string filename;
+      cout << "Enter output file: ";
+      cin >> filename;
+      saveToFile(filename, hashTable);
+      break;
+    }
+    case 'H':
+      printMainMenu();
+      break;
+    case 'Q':
       cout << "Exiting..." << endl;
       running = false;
+      break;
+    default:
+      cout << "Invalid choice, please try again" << endl;
       break;
     }
   }
@@ -139,6 +157,29 @@ void searchManager(const HashTable &hashTable, const BST &bst) {
 
   cout << "Found flight:" << endl;
   displayFlight(flight);
+}
+
+void secondarySearchManager(const HashTable &hashTable) {
+  cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+  string airlineName;
+  cout << "Enter the airline name to search: ";
+  getline(cin, airlineName);
+
+  bool found = false;
+  for (int i = 0; i < hashTable.getTableSize(); i++) {
+    Flight flight;
+    if (hashTable.getAtIndex(i, flight) &&
+        flight.getAirplane().getAirlineName() == airlineName) {
+      cout << "Found flight:" << endl;
+      displayFlight(flight);
+      found = true;
+    }
+  }
+
+  if (!found) {
+    cout << "No flights found for that airline." << endl;
+  }
 }
 
 void deleteManager(HashTable &hashTable, BST &bst) {

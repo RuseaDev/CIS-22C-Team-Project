@@ -10,6 +10,7 @@
 #include "HashTable.h"
 
 void searchManager(const HashTable &hashTable, const BST &bst);
+void secondarySearchManager(const HashTable &hashTable);
 void displayManager(HashTable &hashTable, BST &bst);
 void deleteManager(HashTable &hashTable, BST &bst);
 void insertManager(HashTable &hashTable, BST &bst);
