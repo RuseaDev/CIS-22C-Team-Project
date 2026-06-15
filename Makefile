@@ -1,8 +1,8 @@
 # Variables
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra
-SRC = $(shell find . -name "*.cpp")
-HEADERS = $(shell find . -name "*.h")
+CXXFLAGS = -std=c++17 -Wall -Wextra -Iinclude
+SRC = $(wildcard src/*.cpp)
+HEADERS = $(wildcard include/*.h)
 TARGET = program
 
 # Default rule: just compile

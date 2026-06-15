@@ -1,7 +1,7 @@
-#include "BST.h"
-#include "fileIO.h"
-#include "HashTable.h"
-#include "manager.h"
+#include "../include/BST.h"
+#include "../include/HashTable.h"
+#include "../include/fileIO.h"
+#include "../include/manager.h"
 #include <iostream>
 #include <string>
 using namespace std;

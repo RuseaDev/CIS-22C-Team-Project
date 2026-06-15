@@ -1,4 +1,4 @@
-#include "Stack.h"
+#include "../include/Stack.h"
 
 DeletedFlight::DeletedFlight() {
   hashIndex = -1;

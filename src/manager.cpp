@@ -1,9 +1,9 @@
-#include "manager.h"
-#include "BST.h"
-#include "HashTable.h"
-#include "Stack.h"
-#include "airplane.h"
-#include "flight.h"
+#include "../include/manager.h"
+#include "../include/BST.h"
+#include "../include/HashTable.h"
+#include "../include/Stack.h"
+#include "../include/airplane.h"
+#include "../include/flight.h"
 #include <iostream>
 #include <limits>
 #include <utility>
