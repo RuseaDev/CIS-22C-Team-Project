@@ -13,6 +13,8 @@ const string FILE_ERROR_MESSAGE = "Error: File not found";
 
 using namespace std;
 
+///MAIN FUNCTIONS
+
 /*
 Function: determineHashSize
 */
@@ -37,58 +39,8 @@ int determineHashSize(string filename) {
   // so I write our own small prime finder here
   int size = count * 2;
   while (!isPrime(size))
-    size++;
+  size++;
   return size; // returns 53 for your 25-record file
-}
-
-/*
-Helper Function: isPrime
-since Oak's _isPrime() is private
-*/
-bool isPrime(int n) {
-  if (n < 2)
-    return false;
-  for (int i = 2; i * i <= n; i++)
-    if (n % i == 0)
-      return false;
-  return true;
-}
-
-/*
-Helper: trim leading/trailing whitespace from a token
-*/
-static string trimToken(const string &s) {
-  size_t start = s.find_first_not_of(" \t\r");
-  if (start == string::npos)
-    return "";
-  size_t end = s.find_last_not_of(" \t\r");
-  return s.substr(start, end - start + 1);
-}
-
-/*
-Helper Function: parseLine
-Parses one CSV line into a Flight object.
-Expected columns (no flight_id):
-  flight_number, airline_name, origin, destination,
-  departure_time, arrival_time, status, aircraft_type, seat_capacity
-*/
-Flight parseLine(const string &line) {
-  stringstream ss(line);
-  string token;
-  string f[9];
-  int i = 0;
-  while (getline(ss, token, ',') && i < 9)
-    f[i++] = trimToken(token);
-
-  int seatCap = 0;
-  try {
-    seatCap = stoi(f[8]);
-  } catch (...) {
-  }
-
-  // Airplane constructor takes non-const refs
-  Airplane ap(f[7], seatCap, f[1], 0);
-  return Flight(f[0], f[2], f[3], f[4], f[5], f[6], ap);
 }
 
 /*
@@ -172,4 +124,56 @@ void saveToFile(string filename, HashTable &hashTable) {
 
   file.close();
   cout << saved << " records saved to " << filename << endl;
+}
+
+///HELPER FUNCTIONS
+
+/*
+Helper Function: isPrime
+since Oak's _isPrime() is private
+*/
+bool isPrime(int n) {
+  if (n < 2)
+    return false;
+  for (int i = 2; i * i <= n; i++)
+    if (n % i == 0)
+      return false;
+  return true;
+}
+
+/*
+Helper: trim leading/trailing whitespace from a token
+*/
+static string trimToken(const string &s) {
+  size_t start = s.find_first_not_of(" \t\r");
+  if (start == string::npos)
+    return "";
+  size_t end = s.find_last_not_of(" \t\r");
+  return s.substr(start, end - start + 1);
+}
+
+/*
+Helper Function: parseLine
+Parses one CSV line into a Flight object.
+Expected columns (no flight_id):
+  flight_number, airline_name, origin, destination,
+  departure_time, arrival_time, status, aircraft_type, seat_capacity
+*/
+Flight parseLine(const string &line) {
+  stringstream ss(line);
+  string token;
+  string f[9];
+  int i = 0;
+  while (getline(ss, token, ',') && i < 9)
+    f[i++] = trimToken(token);
+
+  int seatCap = 0;
+  try {
+    seatCap = stoi(f[8]);
+  } catch (...) {
+  }
+
+  // Airplane constructor takes non-const refs
+  Airplane ap(f[7], seatCap, f[1], 0);
+  return Flight(f[0], f[2], f[3], f[4], f[5], f[6], ap);
 }
