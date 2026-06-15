@@ -32,6 +32,19 @@ void testHashTable(TestRunner &t) {
   printResult(t, "HT-03 duplicate BA505 does not increase count",
               hashTable.getCount() == beforeDuplicate);
 
+  // HT-05: Delete SW404 and make sure the probe chain still finds QF707.
+  HashTable deleteTable(determineHashSize(SAMPLE_FILE));
+  BST deleteBST;
+  loadSample(deleteTable, deleteBST);
+
+  int swIndex = deleteBST.search("SW404");
+  bool removed = swIndex != -1 && deleteTable.removeAtIndex(swIndex);
+  deleteBST.remove("SW404");
+
+  printResult(t, "HT-05 SW404 lazy delete succeeds", removed);
+  printResult(t, "HT-05 QF707 remains searchable through deleted SW404 slot",
+              deleteTable.search("QF707") == 47);
+
   // HT-06: Search for a flight number that does not exist.
   printResult(t, "HT-06 missing ZZ000 search result",
               hashTable.search("ZZ000") == -1);

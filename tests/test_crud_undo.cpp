@@ -8,16 +8,6 @@ using namespace std;
 void testCrudAndUndo(TestRunner &t) {
   printGroup("CRUD / Undo");
 
-  // CRUD-08: Undo before anything has been deleted.
-  HashTable undoEmptyTable(determineHashSize(SAMPLE_FILE));
-  BST undoEmptyBST;
-  loadSample(undoEmptyTable, undoEmptyBST);
-  string undoEmptyOutput =
-      captureOutput([&]() { undoDeleteManager(undoEmptyTable, undoEmptyBST); });
-
-  printResult(t, "CRUD-08 undo empty stack reports no deleted flights",
-              contains(undoEmptyOutput, "No deleted flights to restore."));
-
   // CRUD-01: Insert a new valid flight.
   HashTable insertTable(determineHashSize(SAMPLE_FILE));
   BST insertBST;
@@ -112,6 +102,19 @@ void testCrudAndUndo(TestRunner &t) {
   printResult(t, "CRUD-07 AA101 removed from hash table",
               deleteTable.search("AA101") == -1);
 
+  // Clear the shared undo stack so CRUD-08 can test an empty undo history.
+  captureOutput([&]() { undoDeleteManager(deleteTable, deleteBST); });
+
+  // CRUD-08: Undo before anything has been deleted.
+  HashTable undoEmptyTable(determineHashSize(SAMPLE_FILE));
+  BST undoEmptyBST;
+  loadSample(undoEmptyTable, undoEmptyBST);
+  string undoEmptyOutput =
+      captureOutput([&]() { undoDeleteManager(undoEmptyTable, undoEmptyBST); });
+
+  printResult(t, "CRUD-08 undo empty stack reports no deleted flights",
+              contains(undoEmptyOutput, "No deleted flights to restore."));
+
   // CRUD-09: Delete two flights, then undo only the most recent delete.
   HashTable undoRecentTable(determineHashSize(SAMPLE_FILE));
   BST undoRecentBST;
@@ -138,7 +141,7 @@ void testCrudAndUndo(TestRunner &t) {
   withInput(deleteConfirmInput("AA101"),
             [&]() { deleteManager(saveUndoTable, saveUndoBST); });
 
-  string savedFile = TMP_DIR + "/teacher_delete_save.csv";
+  string savedFile = TMP_DIR + "/delete_save_undo.csv";
   captureOutput([&]() { saveToFile(savedFile, saveUndoTable); });
   string undoAfterSaveOutput =
       captureOutput([&]() { undoDeleteManager(saveUndoTable, saveUndoBST); });
