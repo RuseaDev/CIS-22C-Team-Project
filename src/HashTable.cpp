@@ -9,10 +9,6 @@
 
 using namespace std;
 
-// ═══════════════════════════════════════════════════════════════
-// Constructor / Destructor
-// ═══════════════════════════════════════════════════════════════
-
 HashTable::HashTable(int initialCapacity)
     : tableSize(_nextPrime(initialCapacity)), count(0), totalCollisions(0) {
   table = new Slot[tableSize];
@@ -20,65 +16,7 @@ HashTable::HashTable(int initialCapacity)
 
 HashTable::~HashTable() { delete[] table; }
 
-// ═══════════════════════════════════════════════════════════════
-// Polynomial Rolling Hash — How It Works
-//
-// ── The formula ─────────────────────────────────────────────────
-// We scan the key left to right, maintaining a running hash value:
-//
-//   h  = 0
-//   for each character c in key:
-//       h = (h * BASE + ascii(c)) % tableSize
-//
-// Expanding the loop makes the underlying polynomial explicit:
-//
-//   hash(key) = ( ascii(key[0]) * BASE^(n-1)
-//              +  ascii(key[1]) * BASE^(n-2)
-//              +  ...
-//              +  ascii(key[n-1]) * BASE^0 ) % tableSize
-//
-// Each character gets a unique positional weight (BASE^position),
-// so rearranging characters always yields a different hash.
-// "DL303" and "LD303" will NOT collide the way they would with a
-// simple character-sum hash.
-//
-// ── Why BASE = 31? ───────────────────────────────────────────────
-//   1. It is prime — reduces the number of key pairs that map to
-//      the same value compared with a composite base.
-//   2. It is small — (h * 31 + c) fits easily in a 64-bit long
-//      before the modulo step, so no overflow occurs.
-//   3. It is the standard for alphanumeric strings (it is the base
-//      used inside Java's String.hashCode()).
-//
-// ── Why NOT simple modulo-division? ─────────────────────────────
-// The project spec forbids "converting the key to a number and
-// using a simple modulo-division hash function."  That means:
-//
-//   BAD:  h = stoi("003") % tableSize  ->  h = 3 % 53 = 3
-//
-// stoi() reduces the entire string to one integer, throwing away
-// all character-position information.  Keys "003" and "300" would
-// hash identically.  Polynomial rolling hash weighs EVERY character
-// at its position, satisfying the spec requirement.
-//
-// ── Worked example: key = "DL303", tableSize = 11 ───────────────
-//
-//   char | ASCII | h = (h * 31 + ASCII) % 11
-//   -----|-------|----------------------------------
-//   'D'  |  68   | ( 0 * 31 +  68) % 11 =  68 % 11 = 2
-//   'L'  |  76   | ( 2 * 31 +  76) % 11 = 138 % 11 = 6
-//   '3'  |  51   | ( 6 * 31 +  51) % 11 = 237 % 11 = 6
-//   '0'  |  48   | ( 6 * 31 +  48) % 11 = 234 % 11 = 3
-//   '3'  |  51   | ( 3 * 31 +  51) % 11 = 144 % 11 = 1
-//                                                      ^
-//                                            final index = 1
-//
-// ── Sequential key clustering (known limitation) ─────────────────
-// Flight numbers such as "AA101" and "DL303" include both letters
-// and digits, so the polynomial hash uses each character's position
-// instead of reducing the key to a numeric ID.
-// ═══════════════════════════════════════════════════════════════
-
+// Polynomial rolling hash.
 int HashTable::_hash(const string &key) const {
   const int BASE = 31;
   long long h = 0;
@@ -87,9 +25,7 @@ int HashTable::_hash(const string &key) const {
   return static_cast<int>(h);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Prime helpers
-// ═══════════════════════════════════════════════════════════════
+// helpers
 
 bool HashTable::_isPrime(int n) const {
   if (n < 2)
@@ -113,26 +49,8 @@ int HashTable::_nextPrime(int n) const {
   return c;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// insert
-//
-// Algorithm:
-//   1. Auto-rehash if load factor >= 75 %.
-//   2. Compute home = _hash(key).
-//   3. Linear probe: step through (home+i) % size for i=0,1,...
-//      – OCCUPIED + same key  → duplicate, return existing index.
-//      – OCCUPIED + diff key  → collision; record count, continue.
-//      – DELETED              → remember first deleted slot;
-//                               keep probing to detect duplicates.
-//      – EMPTY                → insertion point found; use first
-//                               DELETED slot if one was seen earlier
-//                               (reclaims space and preserves chains).
-//   4. Collision count = probe steps taken to reach insertion point.
-//
-// Returns the final slot index, or -1 if the table is full
-// (should never occur with auto-rehash at 75 %).
-// ═══════════════════════════════════════════════════════════════
-
+// Inserts with linear probing. See docs/HashTable_Algorithms.md for duplicate
+// handling, DELETED-slot reuse, collision counting, and rehash behavior.
 int HashTable::insert(const Flight &flight) {
   if (loadFactor() >= 0.75)
     _rehash();
@@ -159,7 +77,7 @@ int HashTable::insert(const Flight &flight) {
       continue; // keep probing for duplicates
     }
 
-    // ── EMPTY slot reached ──────────────────────────────────────
+    // EMPTY slot reached; insert at the first reusable slot.
     int insertAt = (firstDeleted != -1) ? firstDeleted : probe;
     int collisions = (firstDeleted != -1) ? firstDeletedStep : i;
 
@@ -182,16 +100,7 @@ int HashTable::insert(const Flight &flight) {
   return -1; // table completely full
 }
 
-// ═══════════════════════════════════════════════════════════════
-// search
-//
-// Returns the slot index where key is found, or -1.
-// Stops early at an EMPTY slot (a key cannot exist past a slot
-// that was always empty under linear-probe / lazy-delete).
-// DELETED slots are skipped — they preserve the probe chain for
-// items inserted beyond them.
-// ═══════════════════════════════════════════════════════════════
-
+// Searches by flight number. EMPTY stops the probe; DELETED keeps it going.
 int HashTable::search(const string &key) const {
   int home = _hash(key);
   for (int i = 0; i < tableSize; ++i) {
@@ -209,14 +118,7 @@ int HashTable::search(const string &key) const {
   return -1;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// getAtIndex
-//
 // Retrieves the Flight at a known slot index.
-// Called by the Display Manager after the BST returns a hashIndex:
-//   int idx = bst.search(key)  →  hashTable.getAtIndex(idx, flight)
-// ═══════════════════════════════════════════════════════════════
-
 bool HashTable::getAtIndex(int idx, Flight &out) const {
   if (idx < 0 || idx >= tableSize)
     return false;
@@ -226,15 +128,7 @@ bool HashTable::getAtIndex(int idx, Flight &out) const {
   return true;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// remove
-//
-// Lazy deletion: marks the slot DELETED so probe chains remain
-// intact for subsequent searches.
-// IMPORTANT: the caller must also call bst.remove(key) to keep
-// the BST consistent.
-// ═══════════════════════════════════════════════════════════════
-
+// Lazy deletion preserves probe chains. Callers also remove the key from BST.
 bool HashTable::remove(const string &key) {
   int idx = search(key);
   return removeAtIndex(idx);
@@ -280,20 +174,7 @@ bool HashTable::updateAtIndex(int idx, const Flight &updatedFlight) {
   return true;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// _rehash
-//
-// New size = nextPrime(tableSize × 2).
-// All OCCUPIED slots are re-inserted; DELETED slots are dropped
-// (rehash acts as a garbage-collection pass).
-//
-// After this call, every slot index has changed.
-// The caller must sync the BST via getAllEntries():
-//
-//   auto entries = hashTable.getAllEntries();
-//   // rebuild BST or update each node's hashIndex
-// ═══════════════════════════════════════════════════════════════
-
+// Rebuilds into a larger table and drops DELETED slots. Callers sync BST indexes.
 void HashTable::_rehash() {
   Slot *oldTable = table;
   int oldSize = tableSize;
@@ -310,13 +191,7 @@ void HashTable::_rehash() {
   delete[] oldTable;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// getAllEntries
-//
-// Returns (flight_number, current_index) for every OCCUPIED slot.
-// Use this after a rehash to update BST node hashIndex fields.
-// ═══════════════════════════════════════════════════════════════
-
+// Returns active (flight_number, current_index) pairs for BST rebuilds.
 vector<pair<string, int>> HashTable::getAllEntries() const {
   vector<pair<string, int>> entries;
   entries.reserve(count);
@@ -326,9 +201,7 @@ vector<pair<string, int>> HashTable::getAllEntries() const {
   return entries;
 }
 
-// ═══════════════════════════════════════════════════════════════
 // Statistics
-// ═══════════════════════════════════════════════════════════════
 
 double HashTable::loadFactor() const {
   return static_cast<double>(count) / tableSize;
