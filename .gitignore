@@ -2,3 +2,5 @@
 
 program
 program.exe
+test_runner
+tests/tmp/
