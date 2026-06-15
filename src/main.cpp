@@ -13,7 +13,6 @@ using namespace std;
 
 int main() {
 
-  cout << "wassup!" << endl;
   cout << "File to read: ";
 
   string filename;

@@ -126,14 +126,25 @@ void testDisplayAndManager(TestRunner &t) {
   printResult(t, "UI-11 undo command makes BA505 searchable again",
               undoBST.search("BA505") != -1);
 
-  // UI-12: Enter text where a number is expected.
+  // UI-12: Hidden indented BST command displays the tree.
+  string hiddenIndentedOutput =
+      withInput("I\nQ\n", [&]() { displayManager(hashTable, bst); });
+
+  printResult(t, "UI-12 hidden indented BST prints label",
+              contains(hiddenIndentedOutput, "Indented BST:"));
+  printResult(t, "UI-12 hidden indented BST prints AA101",
+              contains(hiddenIndentedOutput, "AA101"));
+  printResult(t, "UI-12 hidden indented BST prints SW404",
+              contains(hiddenIndentedOutput, "SW404"));
+
+  // UI-13: Enter text where a number is expected.
   string nonNumericOutput = withInput("abc\n2\n", []() {
     int choice = choiceInput();
     cout << "choice=" << choice;
   });
 
-  printResult(t, "UI-12 non-numeric choice prints validation message",
+  printResult(t, "UI-13 non-numeric choice prints validation message",
               contains(nonNumericOutput, "Invalid choice, please try again"));
-  printResult(t, "UI-12 non-numeric choice eventually returns valid number",
+  printResult(t, "UI-13 non-numeric choice eventually returns valid number",
               contains(nonNumericOutput, "choice=2"));
 }

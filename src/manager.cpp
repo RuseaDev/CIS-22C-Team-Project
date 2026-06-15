@@ -133,6 +133,10 @@ void displayManager(HashTable &hashTable, BST &bst) {
     case 'H':
       printMainMenu();
       break;
+    case 'I':
+      cout << "Indented BST:" << endl;
+      bst.printIndented();
+      break;
     case 'Q':
       cout << "Exiting..." << endl;
       running = false;
