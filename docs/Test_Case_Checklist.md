@@ -33,7 +33,7 @@ Test data: `sample_input.txt` with 25 flight records
   - Menu action: Load `sample_input.txt`, then save the records to an output file.
   - Test data: Original 25-record input file.
   - Expected result: Saved `.txt` file uses the same header and field order as the input file: `flight_number, airline_name, origin, destination, departure_time, arrival_time, status, aircraft_type, seat_capacity`.
-  - Purpose: Covers teacher feedback that Save to File must preserve the input `.txt` file format.
+  - Purpose: Save to File must preserve the input `.txt` file format.
 
 - `FI-06` Save after delete
   - Menu action: Delete `AA101`, confirm delete, then save to file.
@@ -71,7 +71,7 @@ Test data: `sample_input.txt` with 25 flight records
   - Menu action: Delete `SW404`, confirm delete, then search for `QF707`.
   - Test data: Original file after deleting `SW404`.
   - Expected result: `SW404` is removed; its hash-table slot is treated as deleted, not empty; `QF707` is still found at index `47`.
-  - Purpose: Covers teacher feedback by combining hash-table lazy deletion with the BST two-child delete case.
+  - Purpose: Combining hash-table lazy deletion with the BST two-child delete case.
 
 - `HT-06` Search not found
   - Menu action: Search for `ZZ000`.
@@ -215,13 +215,13 @@ Test data: `sample_input.txt` with 25 flight records
   - Menu action: Delete `AA101`, delete `DL303`, choose Undo Delete once, then search both records.
   - Test data: Two deleted records.
   - Expected result: `DL303` is restored and found; `AA101` is still not found.
-  - Purpose: Covers teacher feedback that one undo request restores only the most recently deleted item.
+  - Purpose: One undo request restores only the most recently deleted item.
 
 - `CRUD-10` Delete, Save to File, then Undo Delete
   - Menu action: Delete `AA101`, save to file, then choose Undo Delete.
   - Test data: One deleted record followed by Save to File.
   - Expected result: Saved file does not contain `AA101`; undo delete is not possible after saving, or it does not change the saved file.
-  - Purpose: Covers teacher feedback that Save to File commits the deletion before undo is attempted.
+  - Purpose: Save to File commits the deletion before undo is attempted.
 
 ## Final Acceptance Criteria
 

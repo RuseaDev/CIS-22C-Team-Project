@@ -1,6 +1,7 @@
 /**
  * @file fileIO.cpp
- * @brief Implements file reading, CSV parsing, and file saving for flight records.
+ * @brief Implements file reading, CSV parsing, and file saving for flight
+ * records.
  */
 
 #include "../include/fileIO.h"
@@ -13,7 +14,7 @@ const string FILE_ERROR_MESSAGE = "Error: File not found";
 
 using namespace std;
 
-///MAIN FUNCTIONS
+/// MAIN FUNCTIONS
 
 /*
 Function: determineHashSize
@@ -39,7 +40,7 @@ int determineHashSize(string filename) {
   // so I write our own small prime finder here
   int size = count * 2;
   while (!isPrime(size))
-  size++;
+    size++;
   return size; // returns 53 for your 25-record file
 }
 
@@ -126,7 +127,7 @@ void saveToFile(string filename, HashTable &hashTable) {
   cout << saved << " records saved to " << filename << endl;
 }
 
-///HELPER FUNCTIONS
+/// HELPER FUNCTIONS
 
 /*
 Helper Function: isPrime
