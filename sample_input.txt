@@ -1,26 +1,26 @@
 flight_number, airline_name, origin, destination, departure_time, arrival_time, status, aircraft_type, seat_capacity
-AA101, American Airlines, JFK - New York, LAX - Los Angeles, 2025-06-01 06:00, 2025-06-01 09:15, On Time, Boeing 737-800, 162
-UA202, United Airlines, ORD - Chicago, SFO - San Francisco, 2025-06-01 07:30, 2025-06-01 10:45, On Time, Airbus A320, 150
-DL303, Delta Air Lines, ATL - Atlanta, BOS - Boston, 2025-06-01 08:15, 2025-06-01 12:00, Delayed, Boeing 757-200, 176
-SW404, Southwest Airlines, DAL - Dallas Love Field, DEN - Denver, 2025-06-01 09:00, 2025-06-01 10:30, On Time, Boeing 737-700, 143
-BA505, British Airways, LHR - London Heathrow, JFK - New York, 2025-06-01 09:45, 2025-06-01 12:30, On Time, Boeing 777-300ER, 305
-LH606, Lufthansa, FRA - Frankfurt, NRT - Tokyo Narita, 2025-06-01 10:20, 2025-06-02 06:50, On Time, Airbus A380, 509
-QF707, Qantas Airways, SYD - Sydney, LAX - Los Angeles, 2025-06-01 11:00, 2025-06-01 06:15, Boarding, Airbus A380, 485
-EK808, Emirates, DXB - Dubai, LHR - London Heathrow, 2025-06-01 11:30, 2025-06-01 15:55, On Time, Boeing 777-300ER, 354
-AA909, American Airlines, MIA - Miami, ORD - Chicago, 2025-06-01 12:10, 2025-06-01 14:45, On Time, Airbus A321, 187
-UA1010, United Airlines, DEN - Denver, EWR - Newark, 2025-06-01 13:00, 2025-06-01 18:20, Delayed, Boeing 737 MAX 9, 178
-DL1111, Delta Air Lines, SEA - Seattle, JFK - New York, 2025-06-01 14:15, 2025-06-01 22:30, On Time, Airbus A220-300, 130
-AS1212, Alaska Airlines, PDX - Portland, SFO - San Francisco, 2025-06-01 15:00, 2025-06-01 16:45, On Time, Boeing 737-900, 178
-F91313, Frontier Airlines, PHX - Phoenix, MCO - Orlando, 2025-06-01 16:30, 2025-06-01 20:55, On Time, Airbus A320neo, 186
-NK1414, Spirit Airlines, LAS - Las Vegas, ATL - Atlanta, 2025-06-01 17:00, 2025-06-01 23:40, Cancelled, Airbus A319, 145
-AF1515, Air France, CDG - Paris Charles de Gaulle, JFK - New York, 2025-06-01 10:05, 2025-06-01 12:50, On Time, Boeing 787-9, 276
-SQ1616, Singapore Airlines, SIN - Singapore Changi, LHR - London Heathrow, 2025-06-01 23:55, 2025-06-02 05:30, On Time, Airbus A350-900, 253
-CX1717, Cathay Pacific, HKG - Hong Kong, SFO - San Francisco, 2025-06-01 21:30, 2025-06-01 18:45, On Time, Boeing 777-300ER, 280
 JL1818, Japan Airlines, NRT - Tokyo Narita, LAX - Los Angeles, 2025-06-02 00:10, 2025-06-01 17:00, On Time, Boeing 787-8, 246
-TK1919, Turkish Airlines, IST - Istanbul, ORD - Chicago, 2025-06-01 18:25, 2025-06-01 22:10, Delayed, Boeing 777-300ER, 300
+CX1717, Cathay Pacific, HKG - Hong Kong, SFO - San Francisco, 2025-06-01 21:30, 2025-06-01 18:45, On Time, Boeing 777-300ER, 280
+AF1515, Air France, CDG - Paris Charles de Gaulle, JFK - New York, 2025-06-01 10:05, 2025-06-01 12:50, On Time, Boeing 787-9, 276
+AA909, American Airlines, MIA - Miami, ORD - Chicago, 2025-06-01 12:10, 2025-06-01 14:45, On Time, Airbus A321, 187
+AA101, American Airlines, JFK - New York, LAX - Los Angeles, 2025-06-01 06:00, 2025-06-01 09:15, On Time, Boeing 737-800, 162
 AC2020, Air Canada, YYZ - Toronto Pearson, LHR - London Heathrow, 2025-06-01 19:00, 2025-06-02 07:15, On Time, Boeing 787-9, 298
-QR2121, Qatar Airways, DOH - Doha, JFK - New York, 2025-06-01 09:15, 2025-06-01 15:40, Boarding, Airbus A350-1000, 369
-KL2222, KLM Royal Dutch, AMS - Amsterdam Schiphol, IAD - Washington Dulles, 2025-06-01 10:50, 2025-06-01 13:25, On Time, Boeing 787-10, 294
+BA505, British Airways, LHR - London Heathrow, JFK - New York, 2025-06-01 09:45, 2025-06-01 12:30, On Time, Boeing 777-300ER, 305
+AS1212, Alaska Airlines, PDX - Portland, SFO - San Francisco, 2025-06-01 15:00, 2025-06-01 16:45, On Time, Boeing 737-900, 178
+EK808, Emirates, DXB - Dubai, LHR - London Heathrow, 2025-06-01 11:30, 2025-06-01 15:55, On Time, Boeing 777-300ER, 354
+DL303, Delta Air Lines, ATL - Atlanta, BOS - Boston, 2025-06-01 08:15, 2025-06-01 12:00, Delayed, Boeing 757-200, 176
+DL1111, Delta Air Lines, SEA - Seattle, JFK - New York, 2025-06-01 14:15, 2025-06-01 22:30, On Time, Airbus A220-300, 130
 IB2323, Iberia, MAD - Madrid Barajas, MEX - Mexico City, 2025-06-01 13:40, 2025-06-01 18:55, On Time, Airbus A330-200, 292
+F91313, Frontier Airlines, PHX - Phoenix, MCO - Orlando, 2025-06-01 16:30, 2025-06-01 20:55, On Time, Airbus A320neo, 186
+SW404, Southwest Airlines, DAL - Dallas Love Field, DEN - Denver, 2025-06-01 09:00, 2025-06-01 10:30, On Time, Boeing 737-700, 143
+QF707, Qantas Airways, SYD - Sydney, LAX - Los Angeles, 2025-06-01 11:00, 2025-06-01 06:15, Boarding, Airbus A380, 485
+LH606, Lufthansa, FRA - Frankfurt, NRT - Tokyo Narita, 2025-06-01 10:20, 2025-06-02 06:50, On Time, Airbus A380, 509
+KL2222, KLM Royal Dutch, AMS - Amsterdam Schiphol, IAD - Washington Dulles, 2025-06-01 10:50, 2025-06-01 13:25, On Time, Boeing 787-10, 294
+NK1414, Spirit Airlines, LAS - Las Vegas, ATL - Atlanta, 2025-06-01 17:00, 2025-06-01 23:40, Cancelled, Airbus A319, 145
+SQ1616, Singapore Airlines, SIN - Singapore Changi, LHR - London Heathrow, 2025-06-01 23:55, 2025-06-02 05:30, On Time, Airbus A350-900, 253
+QR2121, Qatar Airways, DOH - Doha, JFK - New York, 2025-06-01 09:15, 2025-06-01 15:40, Boarding, Airbus A350-1000, 369
+UA202, United Airlines, ORD - Chicago, SFO - San Francisco, 2025-06-01 07:30, 2025-06-01 10:45, On Time, Airbus A320, 150
+UA1010, United Airlines, DEN - Denver, EWR - Newark, 2025-06-01 13:00, 2025-06-01 18:20, Delayed, Boeing 737 MAX 9, 178
+TK1919, Turkish Airlines, IST - Istanbul, ORD - Chicago, 2025-06-01 18:25, 2025-06-01 22:10, Delayed, Boeing 777-300ER, 300
 WN2424, Southwest Airlines, HOU - Houston Hobby, BWI - Baltimore, 2025-06-01 07:45, 2025-06-01 11:30, On Time, Boeing 737-800, 175
 VX2525, Virgin Atlantic, LHR - London Heathrow, SFO - San Francisco, 2025-06-01 11:20, 2025-06-01 14:05, On Time, Airbus A330-900neo, 335
