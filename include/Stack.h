@@ -39,6 +39,7 @@ public:
   void push(const DeletedFlight &deletedFlight);
   DeletedFlight pop();
   DeletedFlight peek() const;
+  void clear();
   bool isEmpty() const;
   int getCount() const;
 };

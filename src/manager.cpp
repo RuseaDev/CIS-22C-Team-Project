@@ -124,10 +124,7 @@ void displayManager(HashTable &hashTable, BST &bst) {
       hashTable.printStats();
       break;
     case 'W': {
-      string filename;
-      cout << "Enter output file: ";
-      cin >> filename;
-      saveToFile(filename, hashTable);
+      saveManager(hashTable);
       break;
     }
     case 'M':
@@ -215,6 +212,16 @@ void deleteManager(HashTable &hashTable, BST &bst) {
     }
   } else {
     cout << "Delete cancelled." << endl;
+  }
+}
+
+void saveManager(HashTable &hashTable) {
+  string filename;
+  cout << "Enter output file: ";
+  cin >> filename;
+
+  if (saveToFile(filename, hashTable)) {
+    deletedFlights.clear();
   }
 }
 

@@ -95,11 +95,11 @@ void readFile(string filename, HashTable &hashTable, BST &bst) {
 /*
 Function: saveToFile
 */
-void saveToFile(string filename, HashTable &hashTable) {
+bool saveToFile(string filename, HashTable &hashTable) {
   ofstream file(filename);
   if (!file) {
     cout << FILE_ERROR_MESSAGE << endl;
-    return;
+    return false;
   }
 
   // write header
@@ -125,6 +125,7 @@ void saveToFile(string filename, HashTable &hashTable) {
 
   file.close();
   cout << saved << " records saved to " << filename << endl;
+  return true;
 }
 
 /// HELPER FUNCTIONS

@@ -28,9 +28,7 @@ Stack::Stack() {
 }
 
 Stack::~Stack() {
-  while (!isEmpty()) {
-    pop();
-  }
+  clear();
 }
 
 void Stack::push(const DeletedFlight &deletedFlight) {
@@ -61,6 +59,12 @@ DeletedFlight Stack::peek() const {
   }
 
   return top->data;
+}
+
+void Stack::clear() {
+  while (!isEmpty()) {
+    pop();
+  }
 }
 
 bool Stack::isEmpty() const { return top == nullptr; }

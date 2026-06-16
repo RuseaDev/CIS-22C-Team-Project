@@ -141,10 +141,10 @@ void testCrudAndUndo(TestRunner &t) {
   withInput(deleteConfirmInput("AA101"),
             [&]() { deleteManager(saveUndoTable, saveUndoBST); });
 
-  string savedFile = TMP_DIR + "/delete_save_undo.txt";
-  captureOutput([&]() { saveToFile(savedFile, saveUndoTable); });
+  const string savedFile = TMP_DIR + "/delete_save_undo.txt";
   string undoAfterSaveOutput =
-      captureOutput([&]() { undoDeleteManager(saveUndoTable, saveUndoBST); });
+      withInput("W\n" + savedFile + "\nU\nQ\n",
+                [&]() { displayManager(saveUndoTable, saveUndoBST); });
   string savedContents = readWholeFile(savedFile);
 
   printResult(t, "CRUD-10 saved file keeps AA101 deleted",
