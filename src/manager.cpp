@@ -142,8 +142,9 @@ void displayManager(HashTable &hashTable, BST &bst) {
       cout << "Invalid choice, please try again" << endl;
       break;
     }
-    saveManager(hashTable);
   }
+  saveManager(hashTable);
+
 }
 
 void searchManager(const HashTable &hashTable, const BST &bst) {
