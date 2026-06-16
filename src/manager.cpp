@@ -40,7 +40,7 @@ static void printMainMenu() {
   cout << "  [L] - List flights sorted by name" << endl;
   cout << "  [T] - Statistics" << endl;
   cout << "  [W] - Write to file" << endl;
-  cout << "  [H] - Help" << endl;
+  cout << "  [M] - Menu" << endl;
   cout << "  [Q] - Quit" << endl;
 }
 
@@ -130,7 +130,7 @@ void displayManager(HashTable &hashTable, BST &bst) {
       saveToFile(filename, hashTable);
       break;
     }
-    case 'H':
+    case 'M':
       printMainMenu();
       break;
     case 'I':
@@ -161,6 +161,7 @@ void searchManager(const HashTable &hashTable, const BST &bst) {
 
   cout << "Found flight:" << endl;
   displayFlight(flight);
+  cout << endl;
 }
 
 void secondarySearchManager(const HashTable &hashTable) {
